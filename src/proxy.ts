@@ -15,15 +15,17 @@ function apiOrigin(): string {
 }
 
 export default function proxy(request: NextRequest) {
-  const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
   const origin = apiOrigin();
 
-  // Next.js applique automatiquement ce nonce à ses propres scripts d'hydratation dès qu'il le
-  // détecte dans l'en-tête Content-Security-Policy de la réponse - pas de script inline "maison"
-  // dans cette app, donc pas besoin d'aller plus loin pour le propager.
+  // Pas de nonce ici volontairement : un CSP à base de nonce exige que TOUTES les pages soient
+  // rendues dynamiquement (chaque page statiquement pré-rendue est servie sans connaître le nonce
+  // généré à la requête suivante, donc ses scripts se retrouvent bloqués - vécu en prod sur
+  // Vercel). Cette policy reste "self" uniquement : elle bloque toujours le chargement de script
+  // depuis un domaine externe (le principal vecteur d'exfiltration en cas de XSS stocké), sans
+  // dépendre du mode de rendu de chaque page.
   const csp = [
     "default-src 'self'",
-    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'`,
+    "script-src 'self' 'unsafe-inline'",
     "style-src 'self' 'unsafe-inline'",
     `img-src 'self' data: blob: https://images.unsplash.com ${origin}`,
     "font-src 'self' data:",
@@ -35,13 +37,7 @@ export default function proxy(request: NextRequest) {
     "upgrade-insecure-requests",
   ].join("; ");
 
-  const requestHeaders = new Headers(request.headers);
-  requestHeaders.set("x-nonce", nonce);
-  requestHeaders.set("Content-Security-Policy", csp);
-
-  const response =
-    intlMiddleware(request) ??
-    NextResponse.next({ request: { headers: requestHeaders } });
+  const response = intlMiddleware(request) ?? NextResponse.next();
 
   response.headers.set("Content-Security-Policy", csp);
   response.headers.set("X-Content-Type-Options", "nosniff");
