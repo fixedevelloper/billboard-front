@@ -24,7 +24,7 @@ import { useAuth } from "@/lib/AuthProvider";
 
 export function NotificationBell() {
   const t = useTranslations("notifications");
-  const { userId, token, isAuthenticated, hydrated } = useAuth();
+  const { userId, isAuthenticated, hydrated } = useAuth();
 
   const [notifications, setNotifications] = useState<NotificationLogResponse[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
@@ -32,7 +32,7 @@ export function NotificationBell() {
   const eventSourceRef = useRef<EventSource | null>(null);
 
   useEffect(() => {
-    if (!hydrated || !isAuthenticated || !userId || !token) return;
+    if (!hydrated || !isAuthenticated || !userId) return;
 
     let cancelled = false;
 
@@ -44,7 +44,9 @@ export function NotificationBell() {
       })
       .catch(() => undefined);
 
-    const source = new EventSource(getNotificationStreamUrl(userId, token));
+    // Le cookie HttpOnly part automatiquement avec withCredentials : plus besoin de transporter
+    // le JWT en paramètre de requête (il n'est de toute façon plus lisible en JS).
+    const source = new EventSource(getNotificationStreamUrl(userId), { withCredentials: true });
     eventSourceRef.current = source;
 
     source.addEventListener("connected", () => setConnected(true));
@@ -65,7 +67,7 @@ export function NotificationBell() {
       eventSourceRef.current = null;
       setConnected(false);
     };
-  }, [hydrated, isAuthenticated, userId, token]);
+  }, [hydrated, isAuthenticated, userId]);
 
   async function handleOpenNotification(notification: NotificationLogResponse) {
     if (notification.read) return;

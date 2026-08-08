@@ -1,18 +1,13 @@
 import axios, { AxiosError } from "axios";
-import { decodeToken, useAuthStore } from "@/lib/AuthProvider";
 
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080";
 
+// Le JWT vit dans un cookie HttpOnly posé par le backend (voir AuthController /login) : il n'est
+// jamais lisible en JS, donc jamais injecté manuellement dans un header Authorization. Le
+// navigateur l'envoie tout seul sur chaque requête grâce à withCredentials.
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
-});
-
-apiClient.interceptors.request.use((config) => {
-  const token = useAuthStore.getState().token;
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
+  withCredentials: true,
 });
 
 // Miroir de com.cscreativ.billboard.shared.api.dto.ErrorResponseDto
@@ -66,17 +61,40 @@ export interface LoginInput {
   password: string;
 }
 
-// Miroir de com.cscreativ.billboard.user.api.response.LoginResponse
-export interface LoginResponse {
-  accessToken: string;
-  tokenType: string;
+// Miroir de com.cscreativ.billboard.user.api.response.LoginResponse. Ne contient jamais le JWT
+// lui-même : le token part dans un cookie HttpOnly que le frontend ne lit jamais (voir api client
+// plus haut). Ces champs ne sont que des identifiants, pas des secrets.
+export interface SessionUser {
+  userId: string;
+  email: string;
+  advertiserId: string | null;
+  ownerId: string | null;
+  mediaBuyerId: string | null;
+  adminId: string | null;
 }
 
-export async function loginUser(input: LoginInput): Promise<LoginResponse> {
-  const response = await apiClient.post<LoginResponse>("/api/v1/auth/login", input, {
+export async function loginUser(input: LoginInput): Promise<SessionUser> {
+  const response = await apiClient.post<SessionUser>("/api/v1/auth/login", input, {
     headers: { "Content-Type": "application/json" },
   });
   return response.data;
+}
+
+export async function logoutUser(): Promise<void> {
+  await apiClient.post("/api/v1/auth/logout");
+}
+
+/** Reconstitue la session en cours (ex. après rechargement de page) via le cookie HttpOnly. */
+export async function getCurrentSession(): Promise<SessionUser | null> {
+  try {
+    const response = await apiClient.get<SessionUser>("/api/v1/auth/me");
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response?.status === 401) {
+      return null;
+    }
+    throw error;
+  }
 }
 
 // Miroir de com.cscreativ.billboard.user.api.response.ProfileResponse
@@ -108,12 +126,7 @@ export interface ChangePasswordInput {
   newPassword: string;
 }
 
-export async function changePassword(input: ChangePasswordInput): Promise<void> {
-  const token = useAuthStore.getState().token;
-  const userId = token ? decodeToken(token)?.userId : null;
-  if (!userId) {
-    throw new Error("Utilisateur non authentifié");
-  }
+export async function changePassword(userId: string, input: ChangePasswordInput): Promise<void> {
   await apiClient.put(`/api/v1/users/${userId}/password`, {
     oldPassword: input.currentPassword,
     newPassword: input.newPassword,
@@ -1050,6 +1063,9 @@ export async function markNotificationAsRead(id: string): Promise<NotificationLo
   return response.data;
 }
 
-export function getNotificationStreamUrl(recipientId: string, token: string): string {
-  return `${API_BASE_URL}/api/v1/notifications/stream/${recipientId}?token=${encodeURIComponent(token)}`;
+// Le JWT (cookie HttpOnly) est envoyé automatiquement par le navigateur pour ce flux SSE tant que
+// l'EventSource est ouvert avec { withCredentials: true } (voir NotificationBell) : plus besoin de
+// le passer en paramètre de requête, où il aurait fini dans les logs d'accès et l'historique.
+export function getNotificationStreamUrl(recipientId: string): string {
+  return `${API_BASE_URL}/api/v1/notifications/stream/${recipientId}`;
 }

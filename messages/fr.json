@@ -3,6 +3,11 @@
     "title": "Guen's Pub",
     "description": "Plateforme de gestion et de réservation de panneaux publicitaires."
   },
+  "cookieConsent": {
+    "title": "Ce site utilise des cookies.",
+    "message": "Un cookie strictement nécessaire est utilisé pour maintenir votre session connectée en toute sécurité. Aucun cookie de suivi ou publicitaire n'est déposé.",
+    "accept": "J'ai compris"
+  },
   "advertiserDashboard": {
     "greeting": "Tableau de bord",
     "bookingsLabel": "Réservations",

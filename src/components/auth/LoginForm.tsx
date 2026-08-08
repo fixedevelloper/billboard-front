@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { extractErrorMessage, loginUser } from "@/lib/api";
-import { decodeToken, useAuth } from "@/lib/AuthProvider";
+import { useAuth } from "@/lib/AuthProvider";
 
 export function LoginForm() {
   const t = useTranslations("auth.login");
@@ -26,18 +26,17 @@ export function LoginForm() {
     setSubmitting(true);
     setError(null);
     try {
-      const { accessToken } = await loginUser({ email, password });
-      login(accessToken);
+      const session = await loginUser({ email, password });
+      login(session);
 
       // Redirection directe vers l'espace si un seul profil est actif — évite un aller-retour
       // via /space (mount -> useEffect -> nouvelle navigation) inutilement fragile. Avec un
       // compte multi-profils (ou aucun profil), /space affiche le sélecteur comme avant.
-      const decoded = decodeToken(accessToken);
       const profileHrefs = [
-        decoded?.advertiserId && "/dashboard",
-        decoded?.ownerId && "/owner-dashboard",
-        decoded?.mediaBuyerId && "/media-buyer",
-        decoded?.adminId && "/admin",
+        session.advertiserId && "/dashboard",
+        session.ownerId && "/owner-dashboard",
+        session.mediaBuyerId && "/media-buyer",
+        session.adminId && "/admin",
       ].filter((href): href is string => !!href);
 
       router.push(profileHrefs.length === 1 ? profileHrefs[0] : "/space");

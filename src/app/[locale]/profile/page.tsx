@@ -117,9 +117,14 @@ export default function ProfilePage() {
       return;
     }
 
+    if (!userId) {
+      setPasswordError(t("passwordError", { defaultValue: "Échec du changement de mot de passe." }));
+      return;
+    }
+
     setSavingPassword(true);
     try {
-      await changePassword({
+      await changePassword(userId, {
         currentPassword: passwordForm.currentPassword,
         newPassword: passwordForm.newPassword,
       });
