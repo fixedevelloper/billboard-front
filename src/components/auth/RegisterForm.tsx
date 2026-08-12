@@ -121,7 +121,9 @@ export function RegisterForm() {
                 </div>
                 <p className="text-base font-medium text-foreground">{t("success")}</p>
                 <Button asChild className="w-full sm:w-auto mt-2">
-                  <Link href="/login">{t("goToLogin")}</Link>
+                  <Link href={`/verify-email?email=${encodeURIComponent(account.email)}`}>
+                    {t("goToVerifyEmail")}
+                  </Link>
                 </Button>
               </div>
           ) : (

@@ -18,6 +18,7 @@ import {
   LogOut,
   Megaphone,
   Building2,
+  ShoppingBag,
   ChevronRight,
   Loader2,
   AlertCircle,
@@ -33,7 +34,7 @@ export default function ProfilePage() {
   const t = useTranslations("auth.profile");
   const tCommon = useTranslations("common");
   const router = useRouter();
-  const { userId, advertiserId, ownerId, isAuthenticated, hydrated, logout } = useAuth();
+  const { userId, advertiserId, ownerId, mediaBuyerId, isAuthenticated, hydrated, logout } = useAuth();
 
   // Mode Édition du profil
   const [isEditing, setIsEditing] = useState(false);
@@ -415,6 +416,33 @@ export default function ProfilePage() {
                       </div>
                     </div>
                     <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                </Button>
+
+                <Button
+                    asChild
+                    variant={mediaBuyerId ? "outline" : "secondary"}
+                    className="w-full justify-between h-auto py-3 px-4 shadow-sm group hover:border-primary/50 transition-all"
+                >
+                  <Link href={mediaBuyerId ? "/media-buyer" : "/become-mediabuyer"}>
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 rounded-lg bg-purple-500/10 text-purple-500">
+                        <ShoppingBag className="h-4 w-4" />
+                      </div>
+                      <div className="text-left">
+                        <p className="font-semibold text-sm">
+                          {mediaBuyerId ? t("mediaBuyerProfile") : t("becomeMediaBuyer")}
+                        </p>
+                        <p className="text-xs text-muted-foreground font-normal">
+                          {mediaBuyerId ? t("mediaBuyerActive") : t("mediaBuyerJoin")}
+                        </p>
+                      </div>
+                    </div>
+                    {mediaBuyerId ? (
+                        <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:translate-x-1 transition-transform" />
+                    ) : (
+                        <PlusCircle className="h-4 w-4 text-primary" />
+                    )}
                   </Link>
                 </Button>
               </div>

@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { extractErrorMessage, loginUser } from "@/lib/api";
+import { ACCOUNT_NOT_VERIFIED_MESSAGE, extractErrorMessage, loginUser } from "@/lib/api";
 import { useAuth } from "@/lib/AuthProvider";
 
 export function LoginForm() {
@@ -20,11 +20,13 @@ export function LoginForm() {
   const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [notVerified, setNotVerified] = useState(false);
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
     setSubmitting(true);
     setError(null);
+    setNotVerified(false);
     try {
       const session = await loginUser({ email, password });
       login(session);
@@ -41,7 +43,9 @@ export function LoginForm() {
 
       router.push(profileHrefs.length === 1 ? profileHrefs[0] : "/space");
     } catch (err) {
-      setError(extractErrorMessage(err, t("title")));
+      const message = extractErrorMessage(err, t("title"));
+      setError(message);
+      setNotVerified(message === ACCOUNT_NOT_VERIFIED_MESSAGE);
     } finally {
       setSubmitting(false);
     }
@@ -79,8 +83,16 @@ export function LoginForm() {
 
             {/* Banner d'erreur globale si nécessaire */}
             {error && (
-                <div className="p-3 text-sm font-medium rounded-lg bg-destructive/10 text-destructive border border-destructive/20 transition-all">
-                  {error}
+                <div className="p-3 text-sm font-medium rounded-lg bg-destructive/10 text-destructive border border-destructive/20 transition-all space-y-2">
+                  <p>{error}</p>
+                  {notVerified && (
+                      <Link
+                          href={`/verify-email?email=${encodeURIComponent(email)}`}
+                          className="inline-block font-semibold underline underline-offset-4"
+                      >
+                        {t("verifyCta")}
+                      </Link>
+                  )}
                 </div>
             )}
 

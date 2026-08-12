@@ -60,6 +60,20 @@
     "noPayments": "No payments yet.",
     "viewAll": "View all"
   },
+  "mediaBuyerBecome": {
+    "title": "Become a media buyer",
+    "subtitle": "Provide your company details to pay for bookings on behalf of advertisers.",
+    "companyName": "Company name",
+    "taxId": "Tax number (optional)",
+    "contactEmail": "Contact email",
+    "phoneNumber": "Phone (optional)",
+    "creditLimit": "Requested credit limit",
+    "submit": "Create my media buyer profile",
+    "submitting": "Creating…",
+    "success": "Media buyer profile created.",
+    "reloginRequired": "Log back in to access your media buyer space.",
+    "continue": "Log back in"
+  },
   "billboardImages": {
     "manage": "Manage images",
     "title": "Billboard images",
@@ -211,7 +225,8 @@
       "phone": "Phone (optional)",
       "submit": "Sign up",
       "submitting": "Signing up…",
-      "success": "Account created successfully. You can now log in.",
+      "success": "Account created successfully. Check your inbox to activate your account.",
+      "goToVerifyEmail": "Verify my email",
       "haveAccount": "Already have an account?",
       "goToLogin": "Log in",
       "profileType": "You are…",
@@ -236,7 +251,25 @@
       "submit": "Log in",
       "submitting": "Logging in…",
       "noAccount": "Don't have an account yet?",
-      "createAccount": "Sign up"
+      "createAccount": "Sign up",
+      "verifyCta": "Verify my account"
+    },
+    "verifyEmail": {
+      "title": "Verify your email",
+      "subtitle": "Enter the 6-digit code you received by email to activate your account.",
+      "subtitleWithEmail": "Enter the 6-digit code sent to {email}.",
+      "metaTitle": "Email verification | Billboard Marketplace",
+      "metaDescription": "Activate your Billboard Marketplace account by entering the verification code you received by email.",
+      "emailLabel": "Email",
+      "codeLabel": "Verification code",
+      "submit": "Verify my account",
+      "submitting": "Verifying…",
+      "success": "Account verified successfully. You can now log in.",
+      "goToLogin": "Log in",
+      "resendPrompt": "Didn't receive anything?",
+      "resend": "Resend code",
+      "resending": "Sending…",
+      "resendSuccess": "If an account exists with this address, a new code was just sent."
     },
     "profile": {
       "title": "My profile",
@@ -251,6 +284,10 @@
       "advertiserProfile": "Advertiser profile",
       "becomeOwner": "Become an owner",
       "ownerProfile": "Owner profile",
+      "becomeMediaBuyer": "Become a media buyer",
+      "mediaBuyerProfile": "Media buyer profile",
+      "mediaBuyerJoin": "Pay for bookings on behalf of advertisers",
+      "mediaBuyerActive": "Manage my delegated payments",
       "becomeAdmin": "Become an admin",
       "adminDashboard": "Admin dashboard",
       "edit": "Edit",

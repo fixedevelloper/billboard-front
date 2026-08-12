@@ -84,6 +84,21 @@ export async function logoutUser(): Promise<void> {
   await apiClient.post("/api/v1/auth/logout");
 }
 
+// Miroir de com.cscreativ.billboard.user.domain.exception.UserNotVerifiedException#getMessage().
+// Comparaison de texte volontairement simple (pas de code d'erreur structuré côté backend) :
+// permet au formulaire de connexion de proposer un lien vers /verify-email plutôt qu'une
+// erreur générique quand le compte n'est pas encore activé.
+export const ACCOUNT_NOT_VERIFIED_MESSAGE =
+    "Votre compte n'est pas encore vérifié. Consultez votre e-mail pour activer votre compte.";
+
+export async function verifyEmail(token: string): Promise<void> {
+  await apiClient.post("/api/v1/auth/verify-email", { token });
+}
+
+export async function resendVerificationEmail(email: string): Promise<void> {
+  await apiClient.post("/api/v1/auth/resend-verification", { email });
+}
+
 /** Reconstitue la session en cours (ex. après rechargement de page) via le cookie HttpOnly. */
 export async function getCurrentSession(): Promise<SessionUser | null> {
   try {

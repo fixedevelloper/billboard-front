@@ -60,6 +60,20 @@
     "noPayments": "Aucun paiement pour le moment.",
     "viewAll": "Voir tout"
   },
+  "mediaBuyerBecome": {
+    "title": "Devenir media buyer",
+    "subtitle": "Renseignez les informations de votre entreprise pour payer des réservations pour le compte d'annonceurs.",
+    "companyName": "Nom de l'entreprise",
+    "taxId": "Numéro fiscal (optionnel)",
+    "contactEmail": "E-mail de contact",
+    "phoneNumber": "Téléphone (optionnel)",
+    "creditLimit": "Limite de crédit souhaitée",
+    "submit": "Créer mon profil media buyer",
+    "submitting": "Création…",
+    "success": "Profil media buyer créé.",
+    "reloginRequired": "Reconnectez-vous pour accéder à votre espace media buyer.",
+    "continue": "Se reconnecter"
+  },
   "billboardImages": {
     "manage": "Gérer les images",
     "title": "Images du panneau",
@@ -211,7 +225,8 @@
       "phone": "Téléphone (optionnel)",
       "submit": "S'inscrire",
       "submitting": "Inscription…",
-      "success": "Compte créé avec succès. Vous pouvez maintenant vous connecter.",
+      "success": "Compte créé avec succès. Vérifiez votre boîte mail pour activer votre compte.",
+      "goToVerifyEmail": "Vérifier mon e-mail",
       "haveAccount": "Déjà un compte ?",
       "goToLogin": "Se connecter",
       "profileType": "Vous êtes…",
@@ -236,7 +251,25 @@
       "submit": "Se connecter",
       "submitting": "Connexion…",
       "noAccount": "Pas encore de compte ?",
-      "createAccount": "S'inscrire"
+      "createAccount": "S'inscrire",
+      "verifyCta": "Vérifier mon compte"
+    },
+    "verifyEmail": {
+      "title": "Vérifiez votre e-mail",
+      "subtitle": "Saisissez le code à 6 chiffres reçu par e-mail pour activer votre compte.",
+      "subtitleWithEmail": "Saisissez le code à 6 chiffres envoyé à {email}.",
+      "metaTitle": "Vérification de l'e-mail | Billboard Marketplace",
+      "metaDescription": "Activez votre compte Billboard Marketplace en saisissant le code de vérification reçu par e-mail.",
+      "emailLabel": "E-mail",
+      "codeLabel": "Code de vérification",
+      "submit": "Vérifier mon compte",
+      "submitting": "Vérification…",
+      "success": "Compte vérifié avec succès. Vous pouvez maintenant vous connecter.",
+      "goToLogin": "Se connecter",
+      "resendPrompt": "Vous n'avez rien reçu ?",
+      "resend": "Renvoyer le code",
+      "resending": "Envoi…",
+      "resendSuccess": "Si un compte existe avec cette adresse, un nouveau code vient d'être envoyé."
     },
     "profile": {
       "title": "Mon profil",
@@ -251,6 +284,10 @@
       "advertiserProfile": "Profil annonceur",
       "becomeOwner": "Devenir propriétaire",
       "ownerProfile": "Profil propriétaire",
+      "becomeMediaBuyer": "Devenir media buyer",
+      "mediaBuyerProfile": "Profil media buyer",
+      "mediaBuyerJoin": "Payer des réservations pour des annonceurs",
+      "mediaBuyerActive": "Gérer mes paiements délégués",
       "becomeAdmin": "Devenir admin",
       "adminDashboard": "Tableau de bord admin",
       "edit": "Éditer",

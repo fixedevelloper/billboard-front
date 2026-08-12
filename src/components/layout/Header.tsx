@@ -29,7 +29,7 @@ import {
   Wallet,
 } from "lucide-react";
 import Image from "next/image";
-const HIDDEN_ON = new Set(["/login", "/register"]);
+const HIDDEN_ON = new Set(["/login", "/register", "/verify-email"]);
 
 export function Header() {
   const t = useTranslations("nav");
