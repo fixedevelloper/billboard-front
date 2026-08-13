@@ -1,91 +1,22 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { useEffect } from "react";
 import useSWR from "swr";
-import { ArrowDownCircle, ArrowUpCircle, Loader2, Wallet as WalletIcon } from "lucide-react";
+import { Loader2, Wallet as WalletIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { depositToWallet, extractErrorMessage, getWallet, getWalletTransactions, withdrawFromWallet } from "@/lib/api";
+import { getWallet, getWalletOperations, WalletOperationStatus } from "@/lib/api";
 import { useAuth } from "@/lib/AuthProvider";
+import { DepositDialog } from "@/components/wallet/DepositDialog";
+import { WithdrawalDialog } from "@/components/wallet/WithdrawalDialog";
 
-function MovementDialog({
-  kind,
-  currency,
-  onSubmit,
-}: {
-  kind: "deposit" | "withdraw";
-  currency: string;
-  onSubmit: (amount: string, reference: string) => Promise<void>;
-}) {
-  const t = useTranslations("wallet");
-  const [open, setOpen] = useState(false);
-  const [amount, setAmount] = useState("");
-  const [reference, setReference] = useState("");
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  async function handleSubmit(event: FormEvent) {
-    event.preventDefault();
-    setSubmitting(true);
-    setError(null);
-    try {
-      await onSubmit(amount, reference);
-      setAmount("");
-      setReference("");
-      setOpen(false);
-    } catch (err) {
-      setError(extractErrorMessage(err, t(kind === "deposit" ? "deposit" : "withdraw")));
-    } finally {
-      setSubmitting(false);
-    }
-  }
-
-  return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant={kind === "deposit" ? "default" : "outline"} className="gap-2">
-          {kind === "deposit" ? <ArrowDownCircle className="size-4" /> : <ArrowUpCircle className="size-4" />}
-          {t(kind === "deposit" ? "deposit" : "withdraw")}
-        </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{t(kind === "deposit" ? "depositTitle" : "withdrawTitle")}</DialogTitle>
-          <DialogDescription>{t(kind === "deposit" ? "depositDescription" : "withdrawDescription")}</DialogDescription>
-        </DialogHeader>
-        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-          <Input
-            name="amount"
-            type="number"
-            step="0.01"
-            min="0.01"
-            label={`${t("amount")} (${currency})`}
-            value={amount}
-            onChange={(event) => setAmount(event.target.value)}
-            required
-          />
-          <Input
-            name="reference"
-            label={t("referenceOptional")}
-            value={reference}
-            onChange={(event) => setReference(event.target.value)}
-          />
-          {error && <p className="text-sm text-destructive">{error}</p>}
-          <DialogFooter>
-            <Button type="submit" loading={submitting} disabled={submitting}>
-              {t(kind === "deposit" ? "deposit" : "withdraw")}
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
-  );
+function statusTone(status: WalletOperationStatus) {
+  if (status === "COMPLETED") return "success" as const;
+  if (status === "FAILED") return "danger" as const;
+  return "warning" as const;
 }
 
 export default function WalletPage() {
@@ -104,25 +35,13 @@ export default function WalletPage() {
     userId ? ["wallet", userId] : null,
     ([, id]) => getWallet(id),
   );
-  const { data: transactions, mutate: mutateTransactions } = useSWR(
-    userId ? ["wallet-transactions", userId] : null,
-    ([, id]) => getWalletTransactions(id),
+  const { data: operations, mutate: mutateOperations } = useSWR(
+    userId ? ["wallet-operations", userId] : null,
+    ([, id]) => getWalletOperations(id),
   );
 
   async function refresh() {
-    await Promise.all([mutateWallet(), mutateTransactions()]);
-  }
-
-  async function handleDeposit(amount: string, reference: string) {
-    if (!userId) return;
-    await depositToWallet(userId, { amount, currency: wallet?.currency ?? "XOF", reference: reference || undefined });
-    await refresh();
-  }
-
-  async function handleWithdraw(amount: string, reference: string) {
-    if (!userId) return;
-    await withdrawFromWallet(userId, { amount, currency: wallet?.currency ?? "XOF", reference: reference || undefined });
-    await refresh();
+    await Promise.all([mutateWallet(), mutateOperations()]);
   }
 
   if (!hydrated || !isAuthenticated) {
@@ -149,10 +68,12 @@ export default function WalletPage() {
             </p>
           </div>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <MovementDialog kind="deposit" currency={wallet?.currency ?? "XOF"} onSubmit={handleDeposit} />
-          <MovementDialog kind="withdraw" currency={wallet?.currency ?? "XOF"} onSubmit={handleWithdraw} />
-        </div>
+        {userId && wallet && (
+          <div className="flex flex-wrap gap-2">
+            <DepositDialog userId={userId} currency={wallet.currency} onCompleted={refresh} />
+            <WithdrawalDialog userId={userId} currency={wallet.currency} balance={wallet.balance} onCompleted={refresh} />
+          </div>
+        )}
       </Card>
 
       <Card>
@@ -160,34 +81,42 @@ export default function WalletPage() {
           <CardTitle className="text-base">{t("history")}</CardTitle>
         </CardHeader>
         <CardContent>
-          {!transactions && <p className="text-sm text-muted-foreground">{tCommon("loading")}</p>}
-          {transactions && transactions.length === 0 && (
+          {!operations && <p className="text-sm text-muted-foreground">{tCommon("loading")}</p>}
+          {operations && operations.length === 0 && (
             <p className="text-sm text-muted-foreground">{t("empty")}</p>
           )}
-          {transactions && transactions.length > 0 && (
+          {operations && operations.length > 0 && (
             <Table>
               <TableHeader>
                 <TableRow>
                   <TableHead>{t("colType")}</TableHead>
+                  <TableHead>{t("colMethod")}</TableHead>
                   <TableHead>{t("colAmount")}</TableHead>
-                  <TableHead>{t("colReference")}</TableHead>
+                  <TableHead>{t("colStatus")}</TableHead>
                   <TableHead>{t("colDate")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {transactions.map((transaction) => (
-                  <TableRow key={transaction.id}>
+                {operations.map((operation) => (
+                  <TableRow key={operation.id}>
                     <TableCell>
-                      <Badge tone={transaction.type === "DEPOSIT" ? "success" : "warning"}>
-                        {t(transaction.type === "DEPOSIT" ? "deposit" : "withdraw")}
+                      <Badge tone={operation.type === "DEPOSIT" ? "success" : "warning"} variant="outline">
+                        {t(operation.type === "DEPOSIT" ? "deposit" : "withdraw")}
                       </Badge>
                     </TableCell>
-                    <TableCell className="font-medium">
-                      {transaction.type === "DEPOSIT" ? "+" : "-"}
-                      {transaction.amount} {transaction.currency}
+                    <TableCell className="text-muted-foreground">
+                      {t(operation.method === "MOBILE_MONEY" ? "methodMobileMoney" : "methodBankTransfer")}
                     </TableCell>
-                    <TableCell className="text-muted-foreground">{transaction.reference ?? "—"}</TableCell>
-                    <TableCell className="text-muted-foreground">{transaction.createdAt}</TableCell>
+                    <TableCell className="font-medium">
+                      {operation.type === "DEPOSIT" ? "+" : "-"}
+                      {operation.amount} {operation.currency}
+                    </TableCell>
+                    <TableCell>
+                      <Badge tone={statusTone(operation.status)}>
+                        {t(`operationStatus.${operation.status}`)}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="text-muted-foreground">{operation.createdAt}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

@@ -1024,19 +1024,85 @@ export async function getWallet(userId: string, currency = "XOF"): Promise<Walle
   return response.data;
 }
 
-export interface WalletMovementInput {
+// Miroir de com.cscreativ.billboard.wallet.domain.WalletOperationMethod
+export type WalletOperationMethod = "MOBILE_MONEY" | "BANK_TRANSFER";
+export type WalletOperationType = "DEPOSIT" | "WITHDRAWAL";
+export type WalletOperationStatus = "PENDING" | "COMPLETED" | "FAILED";
+
+// Miroir de com.cscreativ.billboard.wallet.api.response.WalletOperationResponse
+export interface WalletOperationResponse {
+  id: string;
+  userId: string;
+  type: WalletOperationType;
+  method: WalletOperationMethod;
+  status: WalletOperationStatus;
   amount: string;
   currency: string;
-  reference?: string;
+  phoneNumber: string | null;
+  bankAccountHolder: string | null;
+  bankIban: string | null;
+  bankName: string | null;
+  reference: string | null;
+  failureReason: string | null;
+  createdAt: string;
+  updatedAt: string;
 }
 
-export async function depositToWallet(userId: string, input: WalletMovementInput): Promise<WalletResponse> {
-  const response = await apiClient.post<WalletResponse>(`/api/v1/wallets/user/${userId}/deposit`, input);
+export interface PlatformBankAccountResponse {
+  accountHolderName: string;
+  iban: string;
+  bankName: string;
+}
+
+export interface DepositInput {
+  method: WalletOperationMethod;
+  amount: string;
+  currency: string;
+  phoneNumber?: string;
+}
+
+export interface WithdrawalInput {
+  method: WalletOperationMethod;
+  amount: string;
+  currency: string;
+  phoneNumber?: string;
+  bankAccountHolder?: string;
+  bankIban?: string;
+  bankName?: string;
+}
+
+export async function getPlatformBankDetails(): Promise<PlatformBankAccountResponse> {
+  const response = await apiClient.get<PlatformBankAccountResponse>("/api/v1/wallet-operations/bank-details");
   return response.data;
 }
 
-export async function withdrawFromWallet(userId: string, input: WalletMovementInput): Promise<WalletResponse> {
-  const response = await apiClient.post<WalletResponse>(`/api/v1/wallets/user/${userId}/withdraw`, input);
+export async function initiateDeposit(userId: string, input: DepositInput): Promise<WalletOperationResponse> {
+  const response = await apiClient.post<WalletOperationResponse>(`/api/v1/wallet-operations/user/${userId}/deposits`, input);
+  return response.data;
+}
+
+export async function initiateWithdrawal(userId: string, input: WithdrawalInput): Promise<WalletOperationResponse> {
+  const response = await apiClient.post<WalletOperationResponse>(`/api/v1/wallet-operations/user/${userId}/withdrawals`, input);
+  return response.data;
+}
+
+export async function getWalletOperations(userId: string): Promise<WalletOperationResponse[]> {
+  const response = await apiClient.get<WalletOperationResponse[]>(`/api/v1/wallet-operations/user/${userId}`);
+  return response.data;
+}
+
+export async function completeWalletOperation(id: string): Promise<WalletOperationResponse> {
+  const response = await apiClient.put<WalletOperationResponse>(`/api/v1/wallet-operations/${id}/complete`);
+  return response.data;
+}
+
+export async function failWalletOperation(id: string, reason: string): Promise<WalletOperationResponse> {
+  const response = await apiClient.put<WalletOperationResponse>(`/api/v1/wallet-operations/${id}/fail`, { reason });
+  return response.data;
+}
+
+export async function listAllWalletOperations(): Promise<WalletOperationResponse[]> {
+  const response = await apiClient.get<WalletOperationResponse[]>("/api/v1/wallet-operations");
   return response.data;
 }
 

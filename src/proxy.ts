@@ -5,7 +5,7 @@ import { routing } from "./i18n/routing";
 const intlMiddleware = createMiddleware(routing);
 
 // Origine de l'API Spring Boot (autre port en dev, autre sous-domaine en prod) : la CSP doit
-// explicitement l'autoriser en connect-src/img-src (fetch, EventSource, images MinIO/logo...).
+// explicitement l'autoriser en connect-src/img-src (fetch, EventSource...).
 function apiOrigin(): string {
   try {
     return new URL(process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8080").origin;
@@ -14,8 +14,22 @@ function apiOrigin(): string {
   }
 }
 
+// Origine du stockage objet (MinIO) qui sert les images de panneaux : un hôte à part entière,
+// distinct de l'API (voir MinioStorageServiceImpl.generatePublicUrl côté backend, qui signe les
+// URLs contre storage.minio.endpoint) — sans cette entrée, le navigateur bloque le chargement de
+// toute image de panneau au nom de la CSP alors même que l'upload a réussi.
+function mediaOrigin(): string | null {
+  if (!process.env.NEXT_PUBLIC_MEDIA_ORIGIN) return null;
+  try {
+    return new URL(process.env.NEXT_PUBLIC_MEDIA_ORIGIN).origin;
+  } catch {
+    return null;
+  }
+}
+
 export default function proxy(request: NextRequest) {
   const origin = apiOrigin();
+  const media = mediaOrigin();
 
   // Pas de nonce ici volontairement : un CSP à base de nonce exige que TOUTES les pages soient
   // rendues dynamiquement (chaque page statiquement pré-rendue est servie sans connaître le nonce
@@ -27,7 +41,7 @@ export default function proxy(request: NextRequest) {
     "default-src 'self'",
     "script-src 'self' 'unsafe-inline'",
     "style-src 'self' 'unsafe-inline'",
-    `img-src 'self' data: blob: https://images.unsplash.com ${origin}`,
+    `img-src 'self' data: blob: https://images.unsplash.com ${origin}${media ? ` ${media}` : ""}`,
     "font-src 'self' data:",
     `connect-src 'self' ${origin}`,
     "frame-ancestors 'none'",

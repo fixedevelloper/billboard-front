@@ -97,6 +97,11 @@ export function BillboardImagesModal({ billboardId, ownerId }: BillboardImagesMo
 
     const newPreviews = filesArray.map((file) => URL.createObjectURL(file));
     setPreviews((prev) => [...prev, ...newPreviews]);
+
+    // Sans ça, resélectionner le(s) même(s) fichier(s) (ex. après avoir retiré un aperçu, ou en
+    // rouvrant le sélecteur une seconde fois) ne redéclenche pas onChange : la valeur de l'input
+    // reste identique du point de vue du navigateur, qui ne considère alors rien de "changé".
+    event.target.value = "";
   }
 
   function removeSelectedFile(index: number) {

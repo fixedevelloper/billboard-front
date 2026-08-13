@@ -12,6 +12,7 @@ import {
   ShieldCheck,
   Star,
   Users,
+  Wallet,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
@@ -50,6 +51,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         { href: "/admin/bookings", label: tEntities("tabBookings"), icon: CalendarCheck },
         { href: "/admin/campaigns", label: tEntities("tabCampaigns"), icon: Megaphone },
         { href: "/admin/payments", label: tEntities("tabPayments"), icon: CreditCard },
+        { href: "/admin/wallet-operations", label: tEntities("tabWalletOperations"), icon: Wallet },
         { href: "/admin/reviews", label: tEntities("tabReviews"), icon: Star },
         { href: "/admin/journal", label: tEntities("tabJournal"), icon: History },
       ]}
