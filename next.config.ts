@@ -10,6 +10,12 @@ const nextConfig: NextConfig = {
                 port: '',
                 pathname: '/**',
             },
+             {
+                protocol: 'https',
+                hostname: 'api-minio.guenspub.com',
+                port: '',
+                pathname: '/**',
+            },
         ],
     },
 };
