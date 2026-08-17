@@ -2,24 +2,41 @@
 
 import { FormEvent, useState } from "react";
 import { useTranslations } from "next-intl";
+import { useSearchParams } from "next/navigation";
 import { Link, useRouter } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { OAuthButtons } from "@/components/auth/OAuthButtons";
 import { ACCOUNT_NOT_VERIFIED_MESSAGE, extractErrorMessage, loginUser } from "@/lib/api";
 import { useAuth } from "@/lib/AuthProvider";
+
+// Valeurs possibles de ?error= posées par OAuth2AuthenticationSuccessHandler /
+// OAuth2AuthenticationFailureHandler côté backend lors d'un retour Google/Facebook.
+const OAUTH_ERROR_KEYS: Record<string, string> = {
+  oauth: "errorGeneric",
+  oauth_no_email: "errorNoEmail",
+  account_disabled: "errorAccountDisabled",
+};
 
 export function LoginForm() {
   const t = useTranslations("auth.login");
   const tCommon = useTranslations("common");
+  const tOAuth = useTranslations("auth.oauth");
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { login } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  // Init paresseuse : ?error= vient d'une redirection OAuth2 côté backend (voir OAUTH_ERROR_KEYS),
+  // donc déjà connu au premier rendu — pas besoin d'un effect pour le lire après coup.
+  const [error, setError] = useState<string | null>(() => {
+    const oauthError = searchParams.get("error");
+    return oauthError && OAUTH_ERROR_KEYS[oauthError] ? tOAuth(OAUTH_ERROR_KEYS[oauthError]) : null;
+  });
   const [notVerified, setNotVerified] = useState(false);
 
   async function handleSubmit(event: FormEvent) {
@@ -57,7 +74,9 @@ export function LoginForm() {
           <CardTitle className="text-2xl font-bold tracking-tight">{t("title")}</CardTitle>
           <CardDescription className="text-muted-foreground">{t("subtitle")}</CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-5">
+          <OAuthButtons />
+
           <form className="space-y-5" onSubmit={handleSubmit}>
             <div className="space-y-4">
               <Input

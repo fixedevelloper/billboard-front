@@ -227,7 +227,15 @@
     "heroTitle": "Louez et gérez des panneaux publicitaires en toute simplicité",
     "heroSubtitle": "Billboard connecte annonceurs et propriétaires d'espaces publicitaires.",
     "ctaLogin": "Se connecter",
-    "ctaRegister": "Créer un compte"
+    "ctaRegister": "Créer un compte",
+    "billboards": {
+      "eyebrow": "Disponibles maintenant",
+      "title": "Panneaux disponibles",
+      "subtitle": "Un aperçu de nos emplacements publicitaires disponibles, prêts à être réservés.",
+      "dailyRate": "par jour",
+      "viewDetails": "Voir le détail",
+      "viewMore": "Voir plus de panneaux"
+    }
   },
   "auth": {
     "layout": {
@@ -331,6 +339,14 @@
       "advertiserActive": "Gérer mes campagnes",
       "advertiserJoin": "Créer un profil annonceur",
       "ownerDesc": "Gérer mes panneaux publicitaires"
+    },
+    "oauth": {
+      "orContinueWith": "ou continuer avec",
+      "continueWithGoogle": "Continuer avec Google",
+      "continueWithFacebook": "Continuer avec Facebook",
+      "errorGeneric": "La connexion via ce fournisseur a échoué. Veuillez réessayer.",
+      "errorNoEmail": "Le fournisseur ne partage pas d'adresse e-mail avec ce compte. Autorisez l'accès à votre e-mail ou utilisez un autre mode de connexion.",
+      "errorAccountDisabled": "Votre compte est désactivé. Contactez le support."
     }
   },
   "admin": {

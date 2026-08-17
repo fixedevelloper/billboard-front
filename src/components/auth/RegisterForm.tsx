@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { OAuthButtons } from "@/components/auth/OAuthButtons";
 import {
   extractErrorMessage,
   registerAdvertiser,
@@ -127,7 +128,10 @@ export function RegisterForm() {
                 </Button>
               </div>
           ) : (
-              <form className="space-y-6" onSubmit={handleSubmit}>
+              <div className="space-y-6">
+                <OAuthButtons />
+
+                <form className="space-y-6" onSubmit={handleSubmit}>
                 {/* Type de Profil - Tab Group */}
                 <div className="space-y-2">
                   <label className="text-sm font-semibold leading-none text-foreground">
@@ -307,7 +311,8 @@ export function RegisterForm() {
                     </Link>
                   </p>
                 </div>
-              </form>
+                </form>
+              </div>
           )}
         </CardContent>
       </Card>

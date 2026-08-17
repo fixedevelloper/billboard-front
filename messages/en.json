@@ -227,7 +227,15 @@
     "heroTitle": "Rent and manage advertising billboards with ease",
     "heroSubtitle": "Billboard connects advertisers with billboard owners.",
     "ctaLogin": "Log in",
-    "ctaRegister": "Create an account"
+    "ctaRegister": "Create an account",
+    "billboards": {
+      "eyebrow": "Available now",
+      "title": "Available billboards",
+      "subtitle": "A preview of our available advertising spaces, ready to be booked.",
+      "dailyRate": "per day",
+      "viewDetails": "View details",
+      "viewMore": "See more billboards"
+    }
   },
   "auth": {
     "layout": {
@@ -331,6 +339,14 @@
       "advertiserActive": "Manage my campaigns",
       "advertiserJoin": "Create an advertiser profile",
       "ownerDesc": "Manage my billboards"
+    },
+    "oauth": {
+      "orContinueWith": "or continue with",
+      "continueWithGoogle": "Continue with Google",
+      "continueWithFacebook": "Continue with Facebook",
+      "errorGeneric": "Sign-in with this provider failed. Please try again.",
+      "errorNoEmail": "The provider isn't sharing an email address for this account. Allow email access or use another sign-in method.",
+      "errorAccountDisabled": "Your account is disabled. Please contact support."
     }
   },
   "admin": {

@@ -3,6 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
+import { BillboardsPreview } from "@/components/billboards/BillboardsPreview";
 import heroBillboard from "../../../public/images/hero-billboard.jpg";
 
 export default async function HomePage({
@@ -15,6 +16,7 @@ export default async function HomePage({
     const t = await getTranslations("home");
 
     return (
+        <>
         <div className="relative isolate flex min-h-[calc(100vh-4rem)] items-center justify-center overflow-hidden bg-slate-950 px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
             {/* Image de fond avec effet de zoom au survol et chargement optimisé */}
             <Image
@@ -86,5 +88,8 @@ export default async function HomePage({
                 </div>
             </div>
         </div>
+
+        <BillboardsPreview />
+        </>
     );
 }

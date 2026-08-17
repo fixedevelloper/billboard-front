@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { LoginForm } from "@/components/auth/LoginForm";
 
@@ -22,5 +23,9 @@ export default async function LoginPage({
 }) {
   const { locale } = await params;
   setRequestLocale(locale);
-  return <LoginForm />;
+  return (
+      <Suspense>
+        <LoginForm />
+      </Suspense>
+  );
 }
