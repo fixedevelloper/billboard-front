@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function TermConditonPage() {
+export default function TermConditonPage() {
     const lastUpdated = "18 août 2026";
     const appName = "VotreApp";
     const companyName = "Votre Entreprise S.A.R.L";
