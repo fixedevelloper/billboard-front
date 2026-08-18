@@ -41,7 +41,7 @@ export default function proxy(request: NextRequest) {
     "default-src 'self'",
     "script-src 'self' 'unsafe-inline'",
     "style-src 'self' 'unsafe-inline'",
-    `img-src 'self' data: blob: https://images.unsplash.com ${origin}${media ? ` ${media}` : ""}`,
+    `img-src 'self' data: blob: https://api-minio.guenspub.com https://images.unsplash.com ${origin}${media ? ` ${media}` : ""}`,
     "font-src 'self' data:",
     `connect-src 'self' ${origin}`,
     "frame-ancestors 'none'",
