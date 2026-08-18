@@ -401,7 +401,7 @@ export interface CreateCampaignInput {
   advertiserId: string;
   name: string;
   description?: string;
-  mediaUrl?: string;
+  mediaFileId?: string;
   fileType?: string;
   fileSize?: number;
 }
@@ -453,7 +453,7 @@ export async function listAllCampaigns(): Promise<CampaignResponse[]> {
 
 export interface SubmitProofInput {
   campaignId: string;
-  fileUrl: string;
+  fileId: string;
   width: number;
   height: number;
 }
@@ -806,7 +806,7 @@ export interface ScheduleInstallationTaskInput {
 }
 
 export interface CompleteInstallationTaskInput {
-  photoUrl: string;
+  photoFileId: string;
   notes?: string;
 }
 

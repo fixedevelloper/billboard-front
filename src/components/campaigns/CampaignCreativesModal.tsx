@@ -127,7 +127,7 @@ export function CampaignCreativesModal({ campaignId, advertiserId }: CampaignCre
       for (const file of selectedFiles) {
         const uploaded = await uploadFile(file, advertiserId);
         const { width, height } = await readImageDimensions(file);
-        await submitCreativeProof({ campaignId, fileUrl: uploaded.publicUrl, width, height });
+        await submitCreativeProof({ campaignId, fileId: uploaded.id, width, height });
       }
       setSelectedFiles([]);
       setPreviews([]);

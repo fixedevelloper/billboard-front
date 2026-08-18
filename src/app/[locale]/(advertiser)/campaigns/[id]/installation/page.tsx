@@ -85,7 +85,7 @@ export default function CampaignInstallationPage({ params }: { params: Promise<{
     setError(null);
     try {
       const uploaded = await uploadFile(photoFile, userId);
-      await completeInstallationTask(taskId, { photoUrl: uploaded.publicUrl, notes: notes || undefined });
+      await completeInstallationTask(taskId, { photoFileId: uploaded.id, notes: notes || undefined });
       setPhotoFile(null);
       setNotes("");
       await mutateTasks();
