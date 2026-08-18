@@ -119,7 +119,7 @@ export function BillboardImagesModal({ billboardId, ownerId }: BillboardImagesMo
     try {
       for (const file of selectedFiles) {
         const uploaded = await uploadFile(file, ownerId);
-        await addBillboardImage(billboardId, uploaded.publicUrl);
+        await addBillboardImage(billboardId, uploaded.id);
       }
       setSelectedFiles([]);
       setPreviews([]);

@@ -979,9 +979,9 @@ export interface BillboardImageResponse {
   createdAt: string;
 }
 
-export async function addBillboardImage(billboardId: string, url: string): Promise<BillboardImageResponse> {
+export async function addBillboardImage(billboardId: string, fileId: string): Promise<BillboardImageResponse> {
   const response = await apiClient.post<BillboardImageResponse>(`/api/v1/billboards/${billboardId}/images`, {
-    url,
+    fileId,
   });
   return response.data;
 }
