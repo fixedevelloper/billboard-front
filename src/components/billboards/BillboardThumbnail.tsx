@@ -7,10 +7,12 @@ import { cn } from "@/lib/utils";
 
 interface BillboardThumbnailProps {
   billboardId: string;
+  /** Titre du panneau, utilisé comme alt dynamique de la vignette (accessibilité + SEO images). */
+  title: string;
   className?: string;
 }
 
-export function BillboardThumbnail({ billboardId, className }: BillboardThumbnailProps) {
+export function BillboardThumbnail({ billboardId, title, className }: BillboardThumbnailProps) {
   const { data: images } = useSWR(["billboard-images", billboardId], () => getBillboardImages(billboardId));
   const firstImage = images?.[0];
 
@@ -21,9 +23,9 @@ export function BillboardThumbnail({ billboardId, className }: BillboardThumbnai
         // possible, la signature change à chaque appel) et demanderait de whitelister
         // l'host dans next.config.
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={firstImage.url} alt="" className="h-full w-full object-cover" />
+        <img src={firstImage.url} alt={title} className="h-full w-full object-cover" />
       ) : (
-        <ImageOff className="size-6 text-muted-foreground" />
+        <ImageOff className="size-6 text-muted-foreground" aria-label={title} />
       )}
     </div>
   );

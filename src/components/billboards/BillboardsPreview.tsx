@@ -56,6 +56,7 @@ export function BillboardsPreview() {
                 <div className="relative aspect-[16/10] w-full overflow-hidden bg-muted">
                   <BillboardThumbnail
                     billboardId={billboard.id}
+                    title={billboard.title}
                     className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                   <div className="absolute left-3 top-3">

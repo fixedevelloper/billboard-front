@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import type { LucideIcon } from "lucide-react";
+import { headers } from "next/headers";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Link } from "@/i18n/navigation";
+import { Link, getPathname } from "@/i18n/navigation";
+import { routing } from "@/i18n/routing";
+import { getRequestBaseUrl } from "@/lib/site-url";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,9 +24,24 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "helpCenter" });
+  const baseUrl = getRequestBaseUrl(await headers());
+  const canonical = `${baseUrl}${getPathname({ locale, href: "/help-center" })}`;
+
   return {
     title: t("metaTitle"),
     description: t("metaDescription"),
+    alternates: {
+      canonical,
+      languages: Object.fromEntries(
+        routing.locales.map((l) => [l, `${baseUrl}${getPathname({ locale: l, href: "/help-center" })}`])
+      ),
+    },
+    openGraph: {
+      title: t("metaTitle"),
+      description: t("metaDescription"),
+      url: canonical,
+      type: "website",
+    },
   };
 }
 
@@ -85,13 +103,13 @@ export default async function HelpCenterPage({
   const t = await getTranslations("helpCenter");
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+    <section aria-labelledby="help-center-heading" className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
       <div className="flex flex-col items-center gap-3 text-center">
         <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-primary">
           <LifeBuoy className="h-4 w-4" />
           <span>{t("eyebrow")}</span>
         </div>
-        <h1 className="text-3xl font-extrabold tracking-tight text-foreground sm:text-5xl">{t("title")}</h1>
+        <h1 id="help-center-heading" className="text-3xl font-extrabold tracking-tight text-foreground sm:text-5xl">{t("title")}</h1>
         <p className="max-w-xl text-base text-muted-foreground">{t("subtitle")}</p>
       </div>
 
@@ -138,6 +156,6 @@ export default async function HelpCenterPage({
           </Button>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

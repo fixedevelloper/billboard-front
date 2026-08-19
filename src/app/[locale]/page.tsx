@@ -1,12 +1,46 @@
+import type { Metadata } from "next";
 import Image from "next/image";
+import { headers } from "next/headers";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Link } from "@/i18n/navigation";
+import { Link, getPathname } from "@/i18n/navigation";
+import { routing } from "@/i18n/routing";
+import { getRequestBaseUrl } from "@/lib/site-url";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { BillboardsPreview } from "@/components/billboards/BillboardsPreview";
 import { CtaSection } from "@/components/home/CtaSection";
 import { CountriesSection } from "@/components/home/CountriesSection";
+import { JsonLd } from "@/components/seo/JsonLd";
 import heroBillboard from "../../../public/images/hero-billboard.jpg";
+
+export async function generateMetadata({
+    params,
+}: {
+    params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+    const { locale } = await params;
+    const t = await getTranslations({ locale, namespace: "home" });
+    const baseUrl = getRequestBaseUrl(await headers());
+    const canonical = `${baseUrl}${getPathname({ locale, href: "/" })}`;
+    const title = `${t("heroTitle")} | Guen's Pub`;
+
+    return {
+        title,
+        description: t("heroSubtitle"),
+        alternates: {
+            canonical,
+            languages: Object.fromEntries(
+                routing.locales.map((l) => [l, `${baseUrl}${getPathname({ locale: l, href: "/" })}`])
+            ),
+        },
+        openGraph: {
+            title,
+            description: t("heroSubtitle"),
+            url: canonical,
+            type: "website",
+        },
+    };
+}
 
 export default async function HomePage({
                                            params,
@@ -16,10 +50,30 @@ export default async function HomePage({
     const { locale } = await params;
     setRequestLocale(locale);
     const t = await getTranslations("home");
+    const baseUrl = getRequestBaseUrl(await headers());
+
+    const organizationJsonLd = {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        name: "Guen's Pub",
+        url: baseUrl,
+        logo: `${baseUrl}/logo.png`,
+        slogan: "Voir plus loin, être partout",
+        email: "contact@guenspub.com",
+    };
+
+    const websiteJsonLd = {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: "Guen's Pub",
+        url: baseUrl,
+    };
 
     return (
         <>
-        <div className="relative isolate flex min-h-[calc(100vh-4rem)] items-center justify-center overflow-hidden bg-slate-950 px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+        <JsonLd data={organizationJsonLd} />
+        <JsonLd data={websiteJsonLd} />
+        <section aria-labelledby="hero-heading" className="relative isolate flex min-h-[calc(100vh-4rem)] items-center justify-center overflow-hidden bg-slate-950 px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
             {/* Image de fond avec effet de zoom au survol et chargement optimisé */}
             <Image
                 src={heroBillboard}
@@ -53,11 +107,11 @@ export default async function HomePage({
                 {/* Badge d'introduction */}
                 <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 text-xs font-medium text-white backdrop-blur-md shadow-inner sm:text-sm">
                     <Sparkles className="h-4 w-4 text-amber-400" />
-                    <span>Guen's Pub Digital & Out-Of-Home</span>
+                    <span>Guen&apos;s Pub Digital &amp; Out-Of-Home</span>
                 </div>
 
                 {/* Titre principal responsive */}
-                <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-6xl md:text-7xl leading-[1.15]">
+                <h1 id="hero-heading" className="text-4xl font-extrabold tracking-tight text-white sm:text-6xl md:text-7xl leading-[1.15]">
                     {t("heroTitle")}
                 </h1>
 
@@ -89,7 +143,7 @@ export default async function HomePage({
                     </Button>
                 </div>
             </div>
-        </div>
+        </section>
 
         <BillboardsPreview />
         <CtaSection />

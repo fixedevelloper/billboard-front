@@ -540,7 +540,14 @@
       "noResults": "No billboard found for this city.",
       "initial": "Search a city to see available billboards.",
       "dailyRate": "per day",
-      "viewDetails": "View details"
+      "viewDetails": "View details",
+      "filterType": "Billboard type",
+      "filterAllTypes": "All types",
+      "filterPriceMin": "Min price",
+      "filterPriceMax": "Max price",
+      "filterReset": "Reset",
+      "filteredEmpty": "No billboard matches these filters.",
+      "filteredEmptyReset": "Reset filters"
     },
     "detail": {
       "back": "Back to billboards",

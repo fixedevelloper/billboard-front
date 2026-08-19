@@ -540,7 +540,14 @@
       "noResults": "Aucun panneau trouvé pour cette ville.",
       "initial": "Recherchez une ville pour voir les panneaux disponibles.",
       "dailyRate": "par jour",
-      "viewDetails": "Voir le détail"
+      "viewDetails": "Voir le détail",
+      "filterType": "Type de panneau",
+      "filterAllTypes": "Tous les types",
+      "filterPriceMin": "Prix min",
+      "filterPriceMax": "Prix max",
+      "filterReset": "Réinitialiser",
+      "filteredEmpty": "Aucun panneau ne correspond à ces filtres.",
+      "filteredEmptyReset": "Réinitialiser les filtres"
     },
     "detail": {
       "back": "Retour aux panneaux",

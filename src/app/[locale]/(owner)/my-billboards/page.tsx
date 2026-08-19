@@ -30,6 +30,9 @@ import { useAuth } from "@/lib/AuthProvider";
 import { BillboardThumbnail } from "@/components/billboards/BillboardThumbnail";
 import { BillboardImagesModal } from "@/components/billboards/BillboardImagesModal";
 import { cn } from "@/lib/utils";
+import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
+
+const PAGE_SIZE = 6;
 
 // Helpeur de couleur selon le statut du panneau
 function getStatusBadgeVariant(status: string) {
@@ -106,6 +109,8 @@ export default function MyBillboardsPage() {
       ownerId ? ["my-billboards", ownerId] : null,
       () => getBillboardsByOwner(ownerId as string)
   );
+
+  const { visibleItems: visibleBillboards, hasMore, sentinelRef } = useInfiniteScroll(billboards ?? [], PAGE_SIZE);
 
   if (!hydrated || !isAuthenticated) {
     return (
@@ -194,8 +199,9 @@ export default function MyBillboardsPage() {
 
         {/* Liste des Panneaux Publicitaires */}
         {!isLoading && billboards && billboards.length > 0 && (
+            <div className="flex flex-col gap-6">
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-              {billboards.map((billboard) => (
+              {visibleBillboards.map((billboard) => (
                   <Card
                       key={billboard.id}
                       className="group overflow-hidden border-border/60 transition-all duration-200 hover:border-border hover:shadow-md"
@@ -204,6 +210,7 @@ export default function MyBillboardsPage() {
                     <div className="relative">
                       <BillboardThumbnail
                           billboardId={billboard.id}
+                          title={billboard.title}
                           className="h-44 w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
                       />
                       <div className="absolute top-3 right-3">
@@ -247,6 +254,13 @@ export default function MyBillboardsPage() {
                     </CardFooter>
                   </Card>
               ))}
+            </div>
+
+              {hasMore && (
+                  <div ref={sentinelRef} className="flex justify-center py-4">
+                    <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+                  </div>
+              )}
             </div>
         )}
       </div>
