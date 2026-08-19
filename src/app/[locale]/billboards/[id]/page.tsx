@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, use, useState, useMemo } from "react";
+import dynamic from "next/dynamic";
 import useSWR from "swr";
 import {
   ArrowLeft,
@@ -17,6 +18,9 @@ import {
   AlertCircle,
   Building,
   DollarSign,
+  Users,
+  TrendingUp,
+  Navigation,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
@@ -36,6 +40,13 @@ import {
 import { useAuth } from "@/lib/AuthProvider";
 import { cn } from "@/lib/utils";
 import { TypeBadge } from "@/components/billboards/TypeBadge";
+
+// Leaflet accède à `window` au chargement du module : rendu client uniquement, sinon le build
+// SSR échoue même dans une page déjà "use client" (Next rend aussi son HTML initial côté serveur).
+const BillboardMap = dynamic(
+  () => import("@/components/billboards/BillboardMap").then((mod) => mod.BillboardMap),
+  { ssr: false, loading: () => <Skeleton className="h-full w-full" /> }
+);
 
 // Composant pour la sélection tactile/visuelle de la note en étoiles
 function StarRatingInput({
@@ -318,7 +329,50 @@ export default function BillboardDetailPage({ params }: { params: Promise<{ id: 
                       </dt>
                       <dd className="font-semibold text-emerald-600 dark:text-emerald-400">{billboard.status}</dd>
                     </div>
+
+                    {billboard.audience && (
+                        <div className="flex flex-col gap-1 rounded-lg bg-muted/40 p-3 border border-border/40">
+                          <dt className="text-muted-foreground flex items-center gap-1.5">
+                            <Users className="h-3.5 w-3.5" />
+                            <span>{tDetail("audience")}</span>
+                          </dt>
+                          <dd className="font-semibold text-foreground">{billboard.audience}</dd>
+                        </div>
+                    )}
+
+                    {billboard.dailyTraffic != null && (
+                        <div className="flex flex-col gap-1 rounded-lg bg-muted/40 p-3 border border-border/40">
+                          <dt className="text-muted-foreground flex items-center gap-1.5">
+                            <TrendingUp className="h-3.5 w-3.5" />
+                            <span>{tDetail("dailyTraffic")}</span>
+                          </dt>
+                          <dd className="font-semibold text-foreground">
+                            {billboard.dailyTraffic.toLocaleString()}{" "}
+                            <span className="text-xs font-normal text-muted-foreground">{tDetail("dailyTrafficUnit")}</span>
+                          </dd>
+                        </div>
+                    )}
                   </dl>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Carte de localisation */}
+            <Card className="border-border/60 shadow-sm">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base font-bold flex items-center gap-2">
+                  <Navigation className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                  <span>{tDetail("location")}</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="h-64 w-full overflow-hidden rounded-xl border border-border/60 sm:h-80">
+                  <BillboardMap
+                      latitude={billboard.latitude}
+                      longitude={billboard.longitude}
+                      title={billboard.title}
+                      address={billboard.address}
+                  />
                 </div>
               </CardContent>
             </Card>

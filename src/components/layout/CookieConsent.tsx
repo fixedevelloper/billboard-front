@@ -1,27 +1,10 @@
 "use client";
 
-import { useState, useSyncExternalStore } from "react";
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Cookie } from "lucide-react";
-
-const STORAGE_KEY = "cookie-notice-acknowledged";
-
-const noopSubscribe = () => () => {};
-
-/**
- * Lecture de localStorage via useSyncExternalStore (même pattern que AuthProvider.useHydrated) :
- * le rendu serveur ne peut pas savoir si la notice a déjà été vue, donc on la considère
- * "acquittée" tant que le client n'a pas confirmé le contraire, pour éviter tout flash au
- * premier rendu et tout mismatch d'hydratation React.
- */
-function useAcknowledged() {
-  return useSyncExternalStore(
-    noopSubscribe,
-    () => window.localStorage.getItem(STORAGE_KEY) === "true",
-    () => true,
-  );
-}
+import { markCookieNoticeAcknowledged, useCookieBannerVisible } from "@/hooks/use-cookie-banner-visible";
 
 /**
  * Simple notice, pas une bannière de consentement avec choix : l'unique cookie posé par
@@ -31,15 +14,15 @@ function useAcknowledged() {
  */
 export function CookieConsent() {
   const t = useTranslations("cookieConsent");
-  const acknowledged = useAcknowledged();
+  const bannerVisible = useCookieBannerVisible();
   const [dismissed, setDismissed] = useState(false);
 
   function acknowledge() {
-    window.localStorage.setItem(STORAGE_KEY, "true");
+    markCookieNoticeAcknowledged();
     setDismissed(true);
   }
 
-  if (acknowledged || dismissed) {
+  if (!bannerVisible || dismissed) {
     return null;
   }
 

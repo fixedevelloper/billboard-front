@@ -7,7 +7,9 @@ import { notFound } from "next/navigation";
 import "../globals.css";
 import { AuthProvider } from "@/lib/AuthProvider";
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { CookieConsent } from "@/components/layout/CookieConsent";
+import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 import { routing } from "@/i18n/routing";
 
 const geistSans = Geist({
@@ -60,6 +62,8 @@ export default async function RootLayout({
           <AuthProvider>
             <Header />
             <main className="flex-1">{children}</main>
+            <Footer />
+            <WhatsAppButton />
             <CookieConsent />
           </AuthProvider>
         </NextIntlClientProvider>

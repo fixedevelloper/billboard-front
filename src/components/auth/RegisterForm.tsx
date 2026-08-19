@@ -39,7 +39,6 @@ export function RegisterForm() {
     contactEmail: "",
     contactPhone: "",
     registrationNumber: "",
-    revenueShareRate: "0.15",
     creditLimit: "10000",
   });
 
@@ -85,7 +84,6 @@ export function RegisterForm() {
           registrationNumber: profile.registrationNumber || undefined,
           contactEmail: profile.contactEmail,
           phoneNumber: profile.contactPhone || undefined,
-          revenueShareRate: profile.revenueShareRate,
         });
       } else {
         await registerMediaBuyer({
@@ -247,24 +245,18 @@ export function RegisterForm() {
                   )}
 
                   {profileType === "owner" && (
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="space-y-4">
                         <Input
                             name="registrationNumber"
                             label={t("registrationNumber")}
                             value={profile.registrationNumber}
                             onChange={updateProfile("registrationNumber")}
                         />
-                        <Input
-                            name="revenueShareRate"
-                            type="number"
-                            step="0.01"
-                            min="0"
-                            max="1"
-                            label={t("revenueShareRate")}
-                            value={profile.revenueShareRate}
-                            onChange={updateProfile("revenueShareRate")}
-                            required
-                        />
+                        {/* Commission fixée par la plateforme (voir become-owner/page.tsx pour le
+                            même bloc informatif) : pas de champ éditable ici non plus. */}
+                        <p className="rounded-lg border border-border/60 bg-muted/30 px-3 py-2 text-xs text-muted-foreground">
+                          {t("revenueShareRate")}
+                        </p>
                       </div>
                   )}
 

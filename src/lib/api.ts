@@ -261,6 +261,8 @@ export interface CreateBillboardInput {
   height: number;
   dailyRate: string;
   currency: string;
+  audience?: string;
+  dailyTraffic?: number;
   ownerId: string;
 }
 
@@ -278,6 +280,8 @@ export interface BillboardResponse {
   height: number;
   dailyRate: string;
   currency: string;
+  audience: string | null;
+  dailyTraffic: number | null;
   ownerId: string;
 }
 
@@ -318,6 +322,8 @@ export interface UpdateBillboardInput {
   height: number;
   dailyRate: string;
   currency: string;
+  audience?: string;
+  dailyTraffic?: number;
 }
 
 export async function updateBillboard(id: string, input: UpdateBillboardInput): Promise<BillboardResponse> {
@@ -694,7 +700,6 @@ export interface RegisterOwnerInput {
   registrationNumber?: string;
   contactEmail: string;
   phoneNumber?: string;
-  revenueShareRate: string;
 }
 
 export interface BillboardOwnerResponse {

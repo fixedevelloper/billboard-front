@@ -4,6 +4,8 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { BillboardsPreview } from "@/components/billboards/BillboardsPreview";
+import { CtaSection } from "@/components/home/CtaSection";
+import { CountriesSection } from "@/components/home/CountriesSection";
 import heroBillboard from "../../../public/images/hero-billboard.jpg";
 
 export default async function HomePage({
@@ -90,6 +92,8 @@ export default async function HomePage({
         </div>
 
         <BillboardsPreview />
+        <CtaSection />
+        <CountriesSection />
         </>
     );
 }

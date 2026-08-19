@@ -2,7 +2,7 @@
 
 import { FormEvent, useEffect, useState } from "react";
 import useSWR from "swr";
-import { ArrowLeft, Loader2, MapPin, Ruler, ShieldAlert, Trash2 } from "lucide-react";
+import { ArrowLeft, Loader2, MapPin, Ruler, ShieldAlert, Trash2, Users } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import { Link, useRouter } from "@/i18n/navigation";
@@ -35,6 +35,8 @@ const emptyForm = {
   height: "3",
   dailyRate: "50",
   currency: "XOF",
+  audience: "",
+  dailyTraffic: "",
 };
 
 export default function EditBillboardPage() {
@@ -69,6 +71,8 @@ export default function EditBillboardPage() {
           height: String(data.height),
           dailyRate: data.dailyRate,
           currency: data.currency,
+          audience: data.audience ?? "",
+          dailyTraffic: data.dailyTraffic != null ? String(data.dailyTraffic) : "",
         });
       },
     },
@@ -103,6 +107,8 @@ export default function EditBillboardPage() {
         height: Number(form.height),
         dailyRate: form.dailyRate,
         currency: form.currency,
+        audience: form.audience || undefined,
+        dailyTraffic: form.dailyTraffic ? Number(form.dailyTraffic) : undefined,
       });
       setSuccess(true);
     } catch (err) {
@@ -291,6 +297,32 @@ export default function EditBillboardPage() {
                   required
                 />
                 <Input name="currency" label={t("currency")} value={form.currency} onChange={updateField("currency")} required />
+              </div>
+            </div>
+
+            <div className="space-y-4 border-t border-border/50 pt-4">
+              <div className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                <Users className="h-3.5 w-3.5" />
+                <span>{t("audience")} / {t("dailyTraffic")}</span>
+              </div>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <Input
+                  name="audience"
+                  label={t("audience")}
+                  placeholder={t("audiencePlaceholder")}
+                  value={form.audience}
+                  onChange={updateField("audience")}
+                />
+                <Input
+                  name="dailyTraffic"
+                  type="number"
+                  min="0"
+                  step="1"
+                  label={t("dailyTraffic")}
+                  placeholder={t("dailyTrafficPlaceholder")}
+                  value={form.dailyTraffic}
+                  onChange={updateField("dailyTraffic")}
+                />
               </div>
             </div>
 

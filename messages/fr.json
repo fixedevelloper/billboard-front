@@ -235,6 +235,20 @@
       "dailyRate": "par jour",
       "viewDetails": "Voir le détail",
       "viewMore": "Voir plus de panneaux"
+    },
+    "cta": {
+      "eyebrow": "Rejoignez-nous",
+      "title": "Prêt à donner de la visibilité à votre marque ?",
+      "subtitle": "Annonceurs et propriétaires d'espaces publicitaires utilisent déjà Guen's Pub pour réserver, gérer et rentabiliser leurs panneaux.",
+      "ctaAdvertiser": "Devenir annonceur",
+      "ctaOwner": "Devenir propriétaire",
+      "ctaMediaBuyer": "Ou devenez apporteur d'affaires"
+    },
+    "countries": {
+      "eyebrow": "Présence",
+      "title": "Nos panneaux à travers le monde",
+      "subtitle": "Guen's Pub référence des emplacements publicitaires dans plusieurs pays, avec de nouvelles villes ajoutées régulièrement.",
+      "citiesCount": "{count, plural, one {# ville} other {# villes}}"
     }
   },
   "auth": {
@@ -272,7 +286,7 @@
       "taxNumber": "Numéro fiscal",
       "taxId": "Numéro fiscal (optionnel)",
       "registrationNumber": "Numéro d'immatriculation (optionnel)",
-      "revenueShareRate": "Taux de reversement à la plateforme (0 à 1)",
+      "revenueShareRate": "Commission plateforme : 10% (fixée par Guen's Pub, non modifiable ici).",
       "creditLimit": "Limite de crédit"
     },
     "login": {
@@ -457,7 +471,8 @@
       "registrationNumber": "Numéro d'immatriculation (optionnel)",
       "contactEmail": "E-mail de contact",
       "phoneNumber": "Téléphone (optionnel)",
-      "revenueShareRate": "Taux de reversement à la plateforme (0 à 1)",
+      "revenueShareRate": "Commission plateforme",
+      "revenueShareRateHint": "Fixée à 10% par Guen's Pub sur chaque paiement reçu : vous conservez 90%. Ce taux n'est pas modifiable depuis ce formulaire.",
       "submit": "Créer mon profil propriétaire",
       "submitting": "Création…",
       "success": "Profil propriétaire créé.",
@@ -481,6 +496,10 @@
       "height": "Hauteur (m)",
       "dailyRate": "Tarif journalier",
       "currency": "Devise",
+      "audience": "Audience cible",
+      "audiencePlaceholder": "Ex : Automobilistes, piétons, jeunes urbains",
+      "dailyTraffic": "Trafic journalier estimé",
+      "dailyTrafficPlaceholder": "Ex : 15000",
       "submit": "Ajouter le panneau",
       "submitting": "Ajout…",
       "success": "Panneau ajouté.",
@@ -530,6 +549,10 @@
       "address": "Adresse",
       "dailyRate": "Tarif journalier",
       "status": "Statut",
+      "audience": "Audience cible",
+      "dailyTraffic": "Trafic journalier estimé",
+      "dailyTrafficUnit": "passages/jour",
+      "location": "Localisation",
       "bookCta": "Réserver ce panneau",
       "needAdvertiser": "Vous devez d'abord créer un profil annonceur pour réserver."
     },
@@ -640,5 +663,108 @@
     "notMediaBuyer": "Vous n'avez pas de profil media buyer sur la plateforme.",
     "empty": "Aucun paiement à traiter.",
     "complete": "Compléter"
+  },
+  "footer": {
+    "tagline": "Voir plus loin, être partout. La marketplace qui connecte annonceurs et propriétaires de panneaux publicitaires en Afrique de l'Ouest et Centrale.",
+    "navTitle": "Navigation",
+    "supportTitle": "Support",
+    "legalTitle": "Légal",
+    "billboards": "Panneaux disponibles",
+    "becomeOwner": "Devenir propriétaire",
+    "becomeAdvertiser": "Devenir annonceur",
+    "becomeMediaBuyer": "Devenir apporteur d'affaires",
+    "helpCenter": "Centre d'aide",
+    "faq": "Questions fréquentes",
+    "contact": "Nous contacter",
+    "terms": "Conditions d'utilisation",
+    "rights": "Tous droits réservés."
+  },
+  "contact": {
+    "metaTitle": "Contact | Guen's Pub",
+    "metaDescription": "Contactez l'équipe Guen's Pub pour toute question sur la location ou la mise en location de panneaux publicitaires.",
+    "eyebrow": "Contact",
+    "title": "Parlons de votre projet",
+    "subtitle": "Une question sur une réservation, un panneau à référencer ou un partenariat ? Notre équipe vous répond rapidement.",
+    "emailLabel": "E-mail",
+    "emailValue": "contact@guenspub.com",
+    "emailHint": "Réponse sous 24 à 48h ouvrées",
+    "helpLabel": "Besoin d'aide rapide ?",
+    "helpHint": "Consultez notre centre d'aide ou notre FAQ avant de nous écrire.",
+    "helpCta": "Centre d'aide",
+    "faqCta": "Voir la FAQ",
+    "formTitle": "Envoyer un message",
+    "formSubtitle": "Ce formulaire ouvre votre client e-mail avec le message pré-rempli.",
+    "nameLabel": "Nom complet",
+    "namePlaceholder": "Votre nom",
+    "emailFieldLabel": "Votre e-mail",
+    "emailFieldPlaceholder": "vous@exemple.com",
+    "subjectLabel": "Sujet",
+    "subjectPlaceholder": "Objet de votre message",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Décrivez votre demande…",
+    "submit": "Envoyer le message"
+  },
+  "helpCenter": {
+    "metaTitle": "Centre d'aide | Guen's Pub",
+    "metaDescription": "Trouvez rapidement une réponse selon votre profil : annonceur, propriétaire de panneaux ou apporteur d'affaires.",
+    "eyebrow": "Centre d'aide",
+    "title": "Comment pouvons-nous vous aider ?",
+    "subtitle": "Choisissez votre profil pour accéder aux ressources adaptées, ou contactez directement notre équipe.",
+    "advertiser": {
+      "title": "Annonceurs",
+      "description": "Réserver un panneau, gérer vos campagnes et suivre vos paiements.",
+      "link1": "Parcourir les panneaux disponibles",
+      "link2": "Créer un compte annonceur",
+      "link3": "Suivre mes campagnes"
+    },
+    "owner": {
+      "title": "Propriétaires",
+      "description": "Référencer vos panneaux, gérer les réservations et suivre vos revenus.",
+      "link1": "Devenir propriétaire",
+      "link2": "Gérer mes panneaux",
+      "link3": "Suivre mes réservations"
+    },
+    "mediaBuyer": {
+      "title": "Apporteurs d'affaires",
+      "description": "Finaliser des paiements pour le compte d'annonceurs et suivre vos commissions.",
+      "link1": "Devenir apporteur d'affaires",
+      "link2": "Paiements à traiter"
+    },
+    "account": {
+      "title": "Compte & portefeuille",
+      "description": "Gérer votre profil ainsi que vos dépôts et retraits de portefeuille.",
+      "link1": "Mon profil",
+      "link2": "Mon portefeuille"
+    },
+    "moreHelp": "Vous ne trouvez pas de réponse à votre question ?",
+    "faqCta": "Consulter la FAQ",
+    "contactCta": "Contacter l'équipe"
+  },
+  "faq": {
+    "metaTitle": "Questions fréquentes | Guen's Pub",
+    "metaDescription": "Réponses aux questions les plus fréquentes sur la réservation, la mise en location de panneaux et les paiements.",
+    "eyebrow": "FAQ",
+    "title": "Questions fréquentes",
+    "subtitle": "Tout ce qu'il faut savoir pour réserver, référencer ou gérer un panneau publicitaire sur Guen's Pub.",
+    "contactPrompt": "Vous ne trouvez pas votre réponse ?",
+    "contactCta": "Contactez notre équipe",
+    "q1": "Comment réserver un panneau publicitaire ?",
+    "a1": "Parcourez notre catalogue de panneaux disponibles, choisissez celui qui correspond à votre campagne puis suivez le parcours de réservation depuis votre espace annonceur.",
+    "q2": "Comment devenir propriétaire de panneaux sur la plateforme ?",
+    "a2": "Créez un compte, puis complétez le formulaire « Devenir propriétaire » avec les informations de votre entreprise. Une fois validé, vous pouvez référencer vos panneaux et suivre vos réservations.",
+    "q3": "Comment fonctionne le paiement et le portefeuille ?",
+    "a3": "Chaque utilisateur dispose d'un portefeuille pour déposer et retirer des fonds. Les paiements de réservation et les reversements aux propriétaires transitent par ce portefeuille.",
+    "q4": "Quel est le rôle d'un apporteur d'affaires (media buyer) ?",
+    "a4": "Un apporteur d'affaires peut finaliser un paiement pour le compte d'un annonceur qui l'a mandaté, et suit ses commissions depuis son espace dédié.",
+    "q5": "Dans quels pays Guen's Pub est-elle présente ?",
+    "a5": "La plateforme référence des panneaux dans plusieurs pays d'Afrique de l'Ouest et Centrale, ainsi qu'en France. La liste des pays disponibles évolue avec l'ajout de nouveaux panneaux.",
+    "q6": "Comment suivre ou annuler une réservation ?",
+    "a6": "Rendez-vous dans « Mes réservations » depuis votre espace annonceur : vous y retrouvez le statut de chaque réservation et les actions disponibles.",
+    "q7": "Comment contacter le support ?",
+    "a7": "Écrivez-nous à contact@guenspub.com ou utilisez le formulaire de la page Contact ; notre équipe répond sous 24 à 48h ouvrées."
+  },
+  "whatsapp": {
+    "ariaLabel": "Discuter avec nous sur WhatsApp",
+    "prefilledMessage": "Bonjour, je souhaite en savoir plus sur Guen's Pub."
   }
 }

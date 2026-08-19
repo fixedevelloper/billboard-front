@@ -235,6 +235,20 @@
       "dailyRate": "per day",
       "viewDetails": "View details",
       "viewMore": "See more billboards"
+    },
+    "cta": {
+      "eyebrow": "Join us",
+      "title": "Ready to put your brand in the spotlight?",
+      "subtitle": "Advertisers and billboard owners already use Guen's Pub to book, manage, and monetize their billboards.",
+      "ctaAdvertiser": "Become an advertiser",
+      "ctaOwner": "Become an owner",
+      "ctaMediaBuyer": "Or become a media buyer"
+    },
+    "countries": {
+      "eyebrow": "Presence",
+      "title": "Our billboards around the world",
+      "subtitle": "Guen's Pub lists advertising spaces across several countries, with new cities added regularly.",
+      "citiesCount": "{count, plural, one {# city} other {# cities}}"
     }
   },
   "auth": {
@@ -272,7 +286,7 @@
       "taxNumber": "Tax number",
       "taxId": "Tax number (optional)",
       "registrationNumber": "Registration number (optional)",
-      "revenueShareRate": "Revenue share rate to the platform (0 to 1)",
+      "revenueShareRate": "Platform commission: 10% (set by Guen's Pub, not editable here).",
       "creditLimit": "Credit limit"
     },
     "login": {
@@ -457,7 +471,8 @@
       "registrationNumber": "Registration number (optional)",
       "contactEmail": "Contact email",
       "phoneNumber": "Phone (optional)",
-      "revenueShareRate": "Revenue share rate to the platform (0 to 1)",
+      "revenueShareRate": "Platform commission",
+      "revenueShareRateHint": "Fixed at 10% by Guen's Pub on every payment received: you keep 90%. This rate cannot be changed from this form.",
       "submit": "Create my owner profile",
       "submitting": "Creating…",
       "success": "Owner profile created.",
@@ -481,6 +496,10 @@
       "height": "Height (m)",
       "dailyRate": "Daily rate",
       "currency": "Currency",
+      "audience": "Target audience",
+      "audiencePlaceholder": "E.g. Drivers, pedestrians, young urban commuters",
+      "dailyTraffic": "Estimated daily traffic",
+      "dailyTrafficPlaceholder": "E.g. 15000",
       "submit": "Add billboard",
       "submitting": "Adding…",
       "success": "Billboard added.",
@@ -530,6 +549,10 @@
       "address": "Address",
       "dailyRate": "Daily rate",
       "status": "Status",
+      "audience": "Target audience",
+      "dailyTraffic": "Estimated daily traffic",
+      "dailyTrafficUnit": "passersby/day",
+      "location": "Location",
       "bookCta": "Book this billboard",
       "needAdvertiser": "You need an advertiser profile before booking."
     },
@@ -640,5 +663,108 @@
     "notMediaBuyer": "You don't have a media buyer profile on the platform.",
     "empty": "No payments to process.",
     "complete": "Complete"
+  },
+  "footer": {
+    "tagline": "See further, be everywhere. The marketplace connecting advertisers and billboard owners across West and Central Africa.",
+    "navTitle": "Navigation",
+    "supportTitle": "Support",
+    "legalTitle": "Legal",
+    "billboards": "Available billboards",
+    "becomeOwner": "Become an owner",
+    "becomeAdvertiser": "Become an advertiser",
+    "becomeMediaBuyer": "Become a media buyer",
+    "helpCenter": "Help center",
+    "faq": "FAQ",
+    "contact": "Contact us",
+    "terms": "Terms of use",
+    "rights": "All rights reserved."
+  },
+  "contact": {
+    "metaTitle": "Contact | Guen's Pub",
+    "metaDescription": "Contact the Guen's Pub team for any question about renting or listing billboards.",
+    "eyebrow": "Contact",
+    "title": "Let's talk about your project",
+    "subtitle": "A question about a booking, a billboard to list, or a partnership? Our team gets back to you fast.",
+    "emailLabel": "Email",
+    "emailValue": "contact@guenspub.com",
+    "emailHint": "Reply within 24 to 48 business hours",
+    "helpLabel": "Need quick help?",
+    "helpHint": "Check our help center or FAQ before writing to us.",
+    "helpCta": "Help center",
+    "faqCta": "View FAQ",
+    "formTitle": "Send a message",
+    "formSubtitle": "This form opens your email client with the message pre-filled.",
+    "nameLabel": "Full name",
+    "namePlaceholder": "Your name",
+    "emailFieldLabel": "Your email",
+    "emailFieldPlaceholder": "you@example.com",
+    "subjectLabel": "Subject",
+    "subjectPlaceholder": "Subject of your message",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Describe your request…",
+    "submit": "Send message"
+  },
+  "helpCenter": {
+    "metaTitle": "Help Center | Guen's Pub",
+    "metaDescription": "Quickly find an answer based on your profile: advertiser, billboard owner, or media buyer.",
+    "eyebrow": "Help center",
+    "title": "How can we help you?",
+    "subtitle": "Pick your profile to reach the right resources, or contact our team directly.",
+    "advertiser": {
+      "title": "Advertisers",
+      "description": "Book a billboard, manage your campaigns, and track your payments.",
+      "link1": "Browse available billboards",
+      "link2": "Create an advertiser account",
+      "link3": "Track my campaigns"
+    },
+    "owner": {
+      "title": "Owners",
+      "description": "List your billboards, manage bookings, and track your revenue.",
+      "link1": "Become an owner",
+      "link2": "Manage my billboards",
+      "link3": "Track my bookings"
+    },
+    "mediaBuyer": {
+      "title": "Media buyers",
+      "description": "Complete payments on behalf of advertisers and track your commissions.",
+      "link1": "Become a media buyer",
+      "link2": "Payments to process"
+    },
+    "account": {
+      "title": "Account & wallet",
+      "description": "Manage your profile and your wallet deposits and withdrawals.",
+      "link1": "My profile",
+      "link2": "My wallet"
+    },
+    "moreHelp": "Can't find the answer to your question?",
+    "faqCta": "Check the FAQ",
+    "contactCta": "Contact the team"
+  },
+  "faq": {
+    "metaTitle": "FAQ | Guen's Pub",
+    "metaDescription": "Answers to the most frequent questions about booking, listing billboards, and payments.",
+    "eyebrow": "FAQ",
+    "title": "Frequently asked questions",
+    "subtitle": "Everything you need to know to book, list, or manage a billboard on Guen's Pub.",
+    "contactPrompt": "Can't find your answer?",
+    "contactCta": "Contact our team",
+    "q1": "How do I book a billboard?",
+    "a1": "Browse our catalog of available billboards, pick the one that fits your campaign, then follow the booking flow from your advertiser space.",
+    "q2": "How do I become a billboard owner on the platform?",
+    "a2": "Create an account, then fill in the \"Become an owner\" form with your company details. Once approved, you can list your billboards and track your bookings.",
+    "q3": "How does payment and the wallet work?",
+    "a3": "Every user has a wallet to deposit and withdraw funds. Booking payments and payouts to owners flow through this wallet.",
+    "q4": "What does a media buyer do?",
+    "a4": "A media buyer can complete a payment on behalf of an advertiser who mandated them, and tracks their commissions from their dedicated space.",
+    "q5": "Which countries is Guen's Pub present in?",
+    "a5": "The platform lists billboards across several countries in West and Central Africa, as well as France. The list of available countries grows as new billboards are added.",
+    "q6": "How do I track or cancel a booking?",
+    "a6": "Go to \"My bookings\" from your advertiser space: you'll find the status of each booking and the actions available.",
+    "q7": "How do I contact support?",
+    "a7": "Email us at contact@guenspub.com or use the form on the Contact page; our team replies within 24 to 48 business hours."
+  },
+  "whatsapp": {
+    "ariaLabel": "Chat with us on WhatsApp",
+    "prefilledMessage": "Hello, I'd like to learn more about Guen's Pub."
   }
 }

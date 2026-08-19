@@ -10,6 +10,7 @@ import {
   Loader2,
   MapPin,
   Ruler,
+  Users,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
@@ -37,6 +38,8 @@ const emptyForm = {
   height: "3",
   dailyRate: "50",
   currency: "XOF",
+  audience: "",
+  dailyTraffic: "",
 };
 
 function StepBadge({
@@ -114,6 +117,8 @@ export default function NewBillboardPage() {
         height: Number(form.height),
         dailyRate: form.dailyRate,
         currency: form.currency,
+        audience: form.audience || undefined,
+        dailyTraffic: form.dailyTraffic ? Number(form.dailyTraffic) : undefined,
         ownerId,
       });
       addBillboardId(billboard.id);
@@ -297,6 +302,32 @@ export default function NewBillboardPage() {
                           value={form.currency}
                           onChange={updateField("currency")}
                           required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="border-t border-border/50 pt-4 space-y-4">
+                    <div className="flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
+                      <Users className="h-3.5 w-3.5" />
+                      <span>Audience & trafic</span>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <Input
+                          name="audience"
+                          label={t("audience")}
+                          placeholder={t("audiencePlaceholder")}
+                          value={form.audience}
+                          onChange={updateField("audience")}
+                      />
+                      <Input
+                          name="dailyTraffic"
+                          type="number"
+                          min="0"
+                          step="1"
+                          label={t("dailyTraffic")}
+                          placeholder={t("dailyTrafficPlaceholder")}
+                          value={form.dailyTraffic}
+                          onChange={updateField("dailyTraffic")}
                       />
                     </div>
                   </div>
